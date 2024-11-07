@@ -7,12 +7,15 @@ import comtypes.client
 import subprocess  # Para ejecutar comandos de sistema
 import shutil  # Para mover archivos
 
-# Rutas de archivos
-excel_path = "C:\\Users\\José Bertrand\\Desktop\\prueba pythom\\Arch.xlsx"
-template_path = "C:\\Users\\José Bertrand\\Desktop\\prueba pythom\\plantilla.docx"
-output_dir = "C:\\Users\\José Bertrand\\Desktop\\prueba pythom\\Documentos Generados"
-pdf_output_dir = "C:\\Users\\José Bertrand\\Desktop\\prueba pythom\\Documentos Generados PDF"
-protected_pdf_dir = "C:\\Users\\José Bertrand\\Desktop\\prueba pythom\\Documentos Protegidos"  # Nueva carpeta para los PDFs protegidos
+# Obtener el directorio donde se encuentra el script
+base_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Rutas relativas
+excel_path = os.path.join(base_dir, "Arch.xlsx")
+template_path = os.path.join(base_dir, "plantilla2.docx")  # Usamos la plantilla correcta
+output_dir = os.path.join(base_dir, "Documentos Generados")
+pdf_output_dir = os.path.join(base_dir, "Documentos Generados PDF")
+protected_pdf_dir = os.path.join(base_dir, "Documentos Protegidos")  # Nueva carpeta para los PDFs protegidos
 
 # Crear el directorio de salida si no existe
 os.makedirs(output_dir, exist_ok=True)
@@ -122,6 +125,9 @@ for index, row in df.iterrows():
                 run_fecha = paragraph.add_run(fecha)
                 run_fecha.bold = True
                 run_fecha.font.size = Pt(12)
+
+        # Verificar si se ha insertado correctamente el texto
+        print(f"Documento generado para {nombre}")
 
         # Guardar el documento generado en formato Word
         doc_output_path = os.path.join(output_dir, f"{nombre.replace(' ', '_')}.docx")
